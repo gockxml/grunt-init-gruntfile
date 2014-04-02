@@ -56,7 +56,7 @@ exports.template = function(grunt, init, done) {
   ], function(err, props) {
     props.dom = true ///y/i.test(props.dom);
     props.ng = /y/i.test(props.ng);
-    props.min_concat = true /y/i.test(props.min_concat);
+    props.min_concat = true ///y/i.test(props.min_concat);
     props.package_json = true  ///y/i.test(props.package_json);
     props.test_task = props.dom ? 'qunit' : 'nodeunit';
     props.file_name = props.package_json ? '<%= pkg.name %>' : 'FILE_NAME';
@@ -91,7 +91,7 @@ exports.template = function(grunt, init, done) {
       var devDependencies = {
         'grunt': '~0.4.2',
         'grunt-contrib-jshint': '~0.7.2',
-        'grunt-contrib-watch': '~0.5.3'
+        'grunt-contrib-watch': '~0.5.3',
         'sugar': '~1.4.1',
         'grunt-convert' : "~0.1.8",
         'grunt-contrib-cssmin' : "~0.6.1" 

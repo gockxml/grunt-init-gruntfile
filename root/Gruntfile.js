@@ -92,13 +92,12 @@ module.exports = function(grunt) {
       CDN : {
         src : 'build/index.*',
         overwrite: true,
-        // /\{\%\=\s*CDN\s*\%\}/g
-      replacements: [{ from :  /\{%= *CDN *%\}/g, to : 'http://assets-th.qiniudn.com/' + version  }]
+        replacements: [{ from :  /\{= *CDN *\}/g, to : 'http://assets-th.qiniudn.com/' + version  }]
       },
       DEFAULT : {
         src : 'build/index.*',
         overwrite: true,
-        replacements: [{ from :  /\{%= *CDN *%\}/g, to : 'http://localhost:9999/build' }]
+        replacements: [{ from :  /\{= *CDN *\}/g, to : 'http://localhost:9999/build' }]
       }
     },
     copy : {
