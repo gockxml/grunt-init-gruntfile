@@ -24,7 +24,8 @@ exports.warnOn = 'Gruntfile.js';
 exports.template = function(grunt, init, done) {
 
   init.process({}, [
-    // Prompt for these values.
+      // Prompt for these values.
+    /*
     {
       name: 'dom',
       message: 'Is the DOM involved in ANY way?',
@@ -36,17 +37,27 @@ exports.template = function(grunt, init, done) {
       message: 'Will files be concatenated or minified?',
       default: 'Y/n',
       warning: 'Yes: min + concat tasks. No: nothing to see here.'
-    },
+  },
     {
       name: 'package_json',
       message: 'Will you have a package.json file?',
       default: 'Y/n',
       warning: 'This changes how filenames are determined and banners are generated.'
+    },
+  */
+
+   {
+      name: 'ng',
+      message: 'Will you use AngularJS?',
+      default: 'Y/n',
+      warning: 'Yes: min + concat tasks. No: nothing to see here.'
     }
+
   ], function(err, props) {
-    props.dom = /y/i.test(props.dom);
-    props.min_concat = /y/i.test(props.min_concat);
-    props.package_json = /y/i.test(props.package_json);
+    props.dom = true ///y/i.test(props.dom);
+    props.ng = /y/i.test(props.ng);
+    props.min_concat = true /y/i.test(props.min_concat);
+    props.package_json = true  ///y/i.test(props.package_json);
     props.test_task = props.dom ? 'qunit' : 'nodeunit';
     props.file_name = props.package_json ? '<%= pkg.name %>' : 'FILE_NAME';
 
@@ -81,6 +92,9 @@ exports.template = function(grunt, init, done) {
         'grunt': '~0.4.2',
         'grunt-contrib-jshint': '~0.7.2',
         'grunt-contrib-watch': '~0.5.3'
+        'sugar': '~1.4.1',
+        'grunt-convert' : "~0.1.8",
+        'grunt-contrib-cssmin' : "~0.6.1" 
       };
 
       if (props.dom) {
@@ -92,6 +106,11 @@ exports.template = function(grunt, init, done) {
       if (props.min_concat) {
         devDependencies['grunt-contrib-concat'] = '~0.3.0';
         devDependencies['grunt-contrib-uglify'] = '~0.2.7';
+        devDependencies["grunt-htmlrefs"] = "~0.4.1";
+        devDependencies["grunt-contrib-compress"] = "~0.5.2";
+      }
+      if (props.ng) {
+        devDependencies['grunt-ngmin'] = '~0.0.3';
       }
 
       // Generate package.json file, used by npm and grunt.

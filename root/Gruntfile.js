@@ -1,6 +1,9 @@
 /*global module:false*/
+require('sugar');
+var fs = require('fs');
 module.exports = function(grunt) {
-
+  var version = 'calendar/' + Date.create().format("{yy}{MM}{dd}{HH}{mm}")
+  fs.writeFileSync("version", version)
   // Project configuration.
   grunt.initConfig({{% if (min_concat) { %}
     // Metadata.{% if (package_json) { %}
@@ -78,6 +81,31 @@ module.exports = function(grunt) {
         files: '<%= jshint.lib_test.src %>',
         tasks: ['jshint:lib_test', '{%= test_task %}']
       }
+    },
+    htmlrefs: {
+      index: {
+        src: 'index.html',
+        dest: 'build/index.html',
+      },
+    },
+    replace: {
+      CDN : {
+        src : 'build/index.*',
+        overwrite: true,
+        // /\{\%\=\s*CDN\s*\%\}/g
+      replacements: [{ from :  /\{%= *CDN *%\}/g, to : 'http://assets-th.qiniudn.com/' + version  }]
+      },
+      DEFAULT : {
+        src : 'build/index.*',
+        overwrite: true,
+        replacements: [{ from :  /\{%= *CDN *%\}/g, to : 'http://localhost:9999/build' }]
+      }
+    },
+    copy : {
+      css : {
+        src : "sass/style.scss.css",
+        dest: "build/css/style.css"
+      }
     }
   });
 
@@ -88,6 +116,13 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
+  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-htmlrefs');
+  grunt.loadNpmTasks('grunt-contrib-compress');
+  grunt.loadNpmTasks('grunt-text-replace');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-convert');
+  grunt.loadNpmTasks('grunt-ngmin');
   // Default task.
   grunt.registerTask('default', ['jshint', '{%= test_task %}'{%= min_concat ? ", 'concat', 'uglify'" : "" %}]);
 
